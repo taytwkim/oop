@@ -90,11 +90,9 @@ private:
     std::unordered_map<std::string, Book> books;
     std::unordered_map<std::string, Author> authors;
     std::unordered_map<std::string, Copy> copies;
-
     std::unordered_map<std::string, std::vector<std::string>> books_by_title_index;
     std::unordered_map<std::string, std::vector<std::string>> books_by_author_index;
     std::unordered_map<std::string, std::string> book_by_isbn_index;
-
     std::unordered_map<std::string, Member> members;
     int num_member_borrow_limit;
 
@@ -107,9 +105,7 @@ public:
     std::string add_author(const std::string& first_name, const std::string& last_name) {
         Author author(first_name, last_name);
         std::string author_id = author.id;
-
         authors.emplace(author_id, author);
-
         return author_id;
     }
 
@@ -119,7 +115,6 @@ public:
                          int num_copies) {
         Book book(title, author_id, isbn);
         std::string book_id = book.id;
-
         std::vector<std::string> copy_ids;
 
         for (int i = 0; i < num_copies; ++i) {
@@ -132,7 +127,6 @@ public:
 
         book.copies = copy_ids;
         book.curr_available_copies = copy_ids;
-
         books.emplace(book_id, book);
         books_by_title_index[title].push_back(book_id);
         books_by_author_index[author_id].push_back(book_id);
@@ -144,59 +138,37 @@ public:
     std::string add_member(const std::string& first_name, const std::string& last_name) {
         Member member(first_name, last_name);
         std::string member_id = member.id;
-
         members.emplace(member_id, member);
-
         return member_id;
     }
 
     std::vector<std::string> search_book_by_title(const std::string& title) {
         auto it = books_by_title_index.find(title);
-
-        if (it == books_by_title_index.end()) {
-            return {};
-        }
-
+        if (it == books_by_title_index.end()) return {};
         return it->second;
     }
 
     std::vector<std::string> search_book_by_author(const std::string& author_id) {
         auto it = books_by_author_index.find(author_id);
-
-        if (it == books_by_author_index.end()) {
-            return {};
-        }
-
+        if (it == books_by_author_index.end()) return {};
         return it->second;
     }
 
     std::optional<std::string> search_book_by_isbn(const std::string& isbn) {
         auto it = book_by_isbn_index.find(isbn);
-
-        if (it == book_by_isbn_index.end()) {
-            return std::nullopt;
-        }
-
+        if (it == book_by_isbn_index.end()) return std::nullopt;
         return it->second;
     }
 
     bool book_is_available(const std::string& book_id) {
         auto it = books.find(book_id);
-
-        if (it == books.end()) {
-            return false;
-        }
-
+        if (it == books.end()) return false;
         return !it->second.curr_available_copies.empty();
     }
 
     bool member_can_borrow_new_book(const std::string& member_id) {
         auto it = members.find(member_id);
-
-        if (it == members.end()) {
-            return false;
-        }
-
+        if (it == members.end()) return false;
         return it->second.curr_borrowed_copies.size() < num_member_borrow_limit;
     }
 
@@ -219,10 +191,8 @@ public:
 
         Book& book = books.at(book_id);
         Member& member = members.at(member_id);
-
         std::string copy_id = book.curr_available_copies.back();
         book.curr_available_copies.pop_back();
-
         member.curr_borrowed_copies.push_back(copy_id);
 
         return copy_id;
@@ -251,7 +221,6 @@ public:
 
         Copy& copy = copies.at(copy_id);
         Book& book = books.at(copy.book_id);
-
         member.curr_borrowed_copies.erase(it);
         book.curr_available_copies.push_back(copy_id);
 

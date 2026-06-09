@@ -37,3 +37,31 @@ Design a system that supports:
 - Define the main public methods/APIs.
 - Implement a simplified version.
 - Discuss edge cases and possible extensions.
+
+## Takeaways
+
+### Python
+
+- For unique IDs, define static class variables outside of the constructor (`__init__`).
+
+### C++
+
+- For unique IDs in C++17, use an `inline static` class variable.
+    - Inside a class, `static` means the variable is shared by all instances of that class.
+    - This is different from `static` at file scope, where it gives a variable internal linkage, meaning it is only visible within that source file.
+
+- Use `emplace` when inserting custom objects into an `unordered_map`.
+
+    For example, avoid writing `books[book_id] = book` if `Book` does not have a default constructor.
+
+    In C++, `map[key]` behaves differently depending on whether the key already exists:
+
+    - If the key exists, it returns a reference to the existing value.
+    - If the key does not exist, it first creates a new entry using a default-constructed value, such as `Book()`, and then assigns the new value.
+
+    So `books[book_id] = book` may require `Book()` to exist. This is fine for types like `int` or `std::string`, but it can fail for custom classes if we only defined constructors that require arguments.
+
+    Instead, do `books.emplace(book_id, book);`.
+
+    `emplace` inserts the key-value pair directly, without first creating a placeholder object with a default constructor.
+- Use `std::optional`, where the value might contain a type `T`, or it might contain nothing (`nullopt`).
