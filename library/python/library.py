@@ -56,7 +56,7 @@ class Library:
         self.members: dict[str, Member] = {}
         self.num_member_borrow_limit = num_member_borrow_limit
 
-    def add_book(self, title: str, author_id: str, isbn: str, num_copies: int):
+    def add_book(self, title: str, author_id: str, isbn: str, num_copies: int) -> str:
         book = Book(title, author_id, isbn)
         copy_ids = []
 
@@ -65,42 +65,42 @@ class Library:
             self.copies[copy.id] = copy
             copy_ids.append(copy.id)
 
-        book.copies = list(copy_ids)
-        book.curr_available_copies = list(copy_ids)
+        book.copies = copy_ids.copy()
+        book.curr_available_copies = copy_ids.copy()
 
         self.books[book.id] = book
-        self.books_by_title_index[book.title].append(book.id)
-        self.books_by_author_index[book.author_id].append(book.id)
-        self.book_by_isbn_index[book.isbn] = book.id
+        self.books_by_title_index[title].append(book.id)
+        self.books_by_author_index[author_id].append(book.id)
+        self.book_by_isbn_index[isbn] = book.id
 
         return book.id
     
-    def add_author(self, first_name: str, last_name: str):
+    def add_author(self, first_name: str, last_name: str) -> str:
         author = Author(first_name, last_name)
         self.authors[author.id] = author
         return author.id
     
-    def add_member(self, first_name: str, last_name: str):
+    def add_member(self, first_name: str, last_name: str) -> str:
         member = Member(first_name, last_name)
         self.members[member.id] = member
         return member.id
 
-    def search_book_by_title(self, title: str):
+    def search_book_by_title(self, title: str) -> list[str]:
         return self.books_by_title_index[title]
 
-    def search_book_by_author(self, author_id: str):
+    def search_book_by_author(self, author_id: str) -> list[str]:
         return self.books_by_author_index[author_id]
 
-    def search_book_by_isbn(self, isbn: str):
+    def search_book_by_isbn(self, isbn: str) -> str:
         return self.book_by_isbn_index.get(isbn)
 
-    def book_is_available(self, book_id: str):
+    def book_is_available(self, book_id: str) -> bool:
         return len(self.books[book_id].curr_available_copies) > 0
 
-    def member_can_borrow_new_book(self, member_id: str):
+    def member_can_borrow_new_book(self, member_id: str) -> bool:
         return len(self.members[member_id].curr_borrowed_copies) < self.num_member_borrow_limit
 
-    def borrow_book(self, member_id: str, book_id: str):
+    def borrow_book(self, member_id: str, book_id: str) -> str | None:
         if book_id not in self.books:
             return None
 
@@ -117,13 +117,12 @@ class Library:
 
         book = self.books[book_id]
         member = self.members[member_id]
-
         copy_id = book.curr_available_copies.pop()
         member.curr_borrowed_copies.append(copy_id)
 
         return copy_id
 
-    def return_book(self, member_id: str, copy_id: str):
+    def return_book(self, member_id: str, copy_id: str) -> bool:
         if member_id not in self.members:
             return False
 
@@ -146,11 +145,11 @@ class Library:
 def main():
     lib = Library(num_member_borrow_limit=5)
 
-    a1_id = lib.add_author("Osamu", "Dazai")
-    a2_id = lib.add_author("Laura", "Esquivel")
+    a1_id = lib.add_author(first_name="Osamu", last_name="Dazai")
+    a2_id = lib.add_author(first_name="Laura", last_name="Esquivel")
 
-    b1_id = lib.add_book("No Longer Human", a1_id, "isbn0", 5)
-    b2_id = lib.add_book("Like Water for Chocolate", a2_id, "isbn1", 3)
+    b1_id = lib.add_book(title="No Longer Human", author_id=a1_id, isbn="isbn0", num_copies=5)
+    b2_id = lib.add_book(title="Like Water for Chocolate", author_id=a2_id, isbn="isbn1", num_copies=3)
 
     assert lib.search_book_by_author(a1_id) == [b1_id]
     assert lib.search_book_by_title("No Longer Human") == [b1_id]
