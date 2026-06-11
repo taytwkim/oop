@@ -48,11 +48,9 @@ class Library:
         self.books: dict[str, Book] = {}
         self.authors: dict[str, Author] = {}
         self.copies: dict[str, Copy] = {}
-
         self.books_by_title_index: dict[str, list[str]] = defaultdict(list)
         self.books_by_author_index: dict[str, list[str]] = defaultdict(list)
         self.book_by_isbn_index: dict[str, str] = {}
-
         self.members: dict[str, Member] = {}
         self.num_member_borrow_limit = num_member_borrow_limit
 
@@ -136,7 +134,6 @@ class Library:
 
         copy = self.copies[copy_id]
         book = self.books[copy.book_id]
-
         member.curr_borrowed_copies.remove(copy_id)
         book.curr_available_copies.append(copy_id)
 

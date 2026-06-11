@@ -98,9 +98,7 @@ private:
 
 public:
     Library(int num_member_borrow_limit)
-        : num_member_borrow_limit(num_member_borrow_limit)
-    {
-    }
+        : num_member_borrow_limit(num_member_borrow_limit) {}
 
     std::string add_author(const std::string& first_name, const std::string& last_name) {
         Author author(first_name, last_name);
@@ -120,7 +118,6 @@ public:
         for (int i = 0; i < num_copies; ++i) {
             Copy copy(book_id);
             std::string copy_id = copy.id;
-
             copies.emplace(copy_id, copy);
             copy_ids.push_back(copy_id);
         }
@@ -173,21 +170,10 @@ public:
     }
 
     std::optional<std::string> borrow_book(const std::string& member_id, const std::string& book_id) {
-        if (books.find(book_id) == books.end()) {
-            return std::nullopt;
-        }
-
-        if (members.find(member_id) == members.end()) {
-            return std::nullopt;
-        }
-
-        if (!book_is_available(book_id)) {
-            return std::nullopt;
-        }
-
-        if (!member_can_borrow_new_book(member_id)) {
-            return std::nullopt;
-        }
+        if (books.find(book_id) == books.end()) return std::nullopt;
+        if (members.find(member_id) == members.end()) return std::nullopt;
+        if (!book_is_available(book_id)) return std::nullopt;
+        if (!member_can_borrow_new_book(member_id)) return std::nullopt;
 
         Book& book = books.at(book_id);
         Member& member = members.at(member_id);
@@ -199,13 +185,8 @@ public:
     }
 
     bool return_book(const std::string& member_id, const std::string& copy_id) {
-        if (members.find(member_id) == members.end()) {
-            return false;
-        }
-
-        if (copies.find(copy_id) == copies.end()) {
-            return false;
-        }
+        if (members.find(member_id) == members.end()) return false;
+        if (copies.find(copy_id) == copies.end()) return false;
 
         Member& member = members.at(member_id);
 
@@ -215,9 +196,7 @@ public:
             copy_id
         );
 
-        if (it == member.curr_borrowed_copies.end()) {
-            return false;
-        }
+        if (it == member.curr_borrowed_copies.end()) return false;
 
         Copy& copy = copies.at(copy_id);
         Book& book = books.at(copy.book_id);
