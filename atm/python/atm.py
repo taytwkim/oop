@@ -35,7 +35,7 @@ class Bank:
         self.cards[card.id] = card
         return card.id
     
-    def is_valid_card(self, card_id):
+    def is_valid_card(self, card_id) -> bool:
         return card_id in self.cards
     
     def authenticate(self, card_id: str, pin: str) -> bool:
@@ -48,7 +48,7 @@ class Bank:
         account = self.accounts[card.account_id]
         return account.curr_balance
     
-    def deposit(self, card_id: str, amount: int) -> int | None:
+    def deposit(self, card_id: str, amount: int) -> int:
         card = self.cards[card_id]
         account = self.accounts[card.account_id]
         account.curr_balance += amount
@@ -146,7 +146,6 @@ def main():
     account_id = bank.add_new_account(pin="0000", init_balance=50)
     card_id = bank.add_new_card(account_id=account_id)
     atm = ATM(init_cash_balance=100, bank=bank)
-
     assert atm.insert_card(card_id)
     assert atm.enter_pin("0000")
     new_balance = atm.withdraw_money(10)

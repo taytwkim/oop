@@ -38,7 +38,7 @@ Design a system that supports:
 - Implement a simplified version.
 - Discuss edge cases and possible extensions.
 
-## Takeaways
+## Notes
 
 ### Python
 
@@ -64,4 +64,7 @@ Design a system that supports:
     Instead, do `books.emplace(book_id, book);`.
 
     `emplace` inserts the key-value pair directly, without first creating a placeholder object with a default constructor.
+
 - Use `std::optional`, where the value might contain a type `T`, or it might contain nothing (`nullopt`).
+
+- Note that we are using direct initialization to create objects, e.g., `Book book(title, author_id, isbn);`. Objects created this way have local scope, so the local `book` object will be destroyed when the `add_X` method returns. This is okay because we store a **copy** of the object in an `unordered_map` before the method returns. For example, `books.emplace(book_id, book)` creates a copy of `book` inside the map.

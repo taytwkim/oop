@@ -93,3 +93,11 @@ Account
 Bank
 ATM
 ```
+
+## Notes
+
+### C++
+
+- `std::make_unique<T>(...)` creates an object of type `T` on the heap and returns a `std::unique_ptr<T>` that owns it. A `unique_ptr` is a smart pointer with unique ownership: only one `unique_ptr` can own the object at a time. When the `unique_ptr` is destroyed, it automatically deletes the object it owns, so we do not manually call `delete`. The `unique_ptr` itself also does not need to be manually deleted.
+
+- When storing a `unique_ptr` in an `unordered_map`, we use `std::move`, e.g. `cards.emplace(card_id, std::move(card));`, because a `unique_ptr` cannot be copied. The map creates a new `unique_ptr` in its value slot, and the ownership of the object is transferred.
