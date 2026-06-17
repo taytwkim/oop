@@ -2,11 +2,10 @@
 #include <string>
 
 class Employee {
-
 /*
  * public:
  *      Anyone can access it.
- *
+ *s
  * private:
  *      Only member functions of this class can access it.
  *
@@ -73,6 +72,29 @@ public:
     virtual ~Employee() = default;
 };
 
+/*
+ * public here means the child class can be treated
+ * as an instance of the parent class by outside code.
+ *
+ * For example:
+ *      FullTimeEmployee is an Employee.
+ *
+ * So this is allowed:
+ *      Employee* p = new FullTimeEmployee(...);
+ *      Employee& r = full_time_employee;
+ *
+ * C++ also supports private inheritance:
+ *      class Child : private Parent
+ *
+ * With private inheritance, the child still reuses the parent
+ * internally, but outside code cannot treat the child as a parent.
+ *
+ * So this would not be allowed:
+ *      Parent* p = new Child(...);
+ *
+ * For normal OOP "is-a" relationships and polymorphism,
+ * we almost always use public inheritance.
+ */
 class FullTimeEmployee : public Employee {
 private:
     int monthly_salary;

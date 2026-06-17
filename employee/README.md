@@ -75,8 +75,6 @@ Implement:
    - prints each employee's id, name, role, and monthly pay
 ```
 
----
-
 ## Expected Class Design
 
 ```text
@@ -133,8 +131,6 @@ Methods:
     get_role()
     calculate_monthly_pay()
 ```
-
----
 
 ## Main Inheritance Idea
 
