@@ -1,3 +1,3 @@
-# OOP and Classes
+# OOP and Class Design
 
-Studying Object Oriented Programming and Class Design
+Practicing Object-oriented Programming and Class Design in Python and C++.
