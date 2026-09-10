@@ -26,6 +26,7 @@ class Game:
             return False
 
         row = self.board.placeDisk(col, player.getColor())
+        
         if row == -1:
             return False
 

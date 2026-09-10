@@ -12,7 +12,7 @@ class Board:
         self.grid : list[list[Optional[DiskColor]]] = [
             [None for _ in range(numCols)] for _ in range(numRows) 
         ]
-
+    
     def getNumRows(self) -> int:
         return self.numRows
 
@@ -93,10 +93,13 @@ class Board:
                 raise ValueError("Each cell must contain row, col, and color")
 
             row, col, color = cell
+
             if type(row) is not int or type(col) is not int:
                 raise ValueError("Row and column must be integers")
+
             if not self._inBounds(row, col):
                 raise ValueError("Cell coordinates are out of bounds")
+
             if not isinstance(color, DiskColor):
                 raise ValueError("Color must be a DiskColor")
 
