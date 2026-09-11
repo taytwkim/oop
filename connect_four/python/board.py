@@ -6,50 +6,50 @@ class DiskColor(Enum):
     YELLOW = 2
 
 class Board:
-    def __init__(self, numRows: int = 6, numCols: int = 7):
-        self.numRows = numRows
-        self.numCols = numCols
+    def __init__(self, num_rows: int = 6, num_cols: int = 7):
+        self.num_rows = num_rows
+        self.num_cols = num_cols
         self.grid : list[list[Optional[DiskColor]]] = [
-            [None for _ in range(numCols)] for _ in range(numRows) 
+            [None for _ in range(num_cols)] for _ in range(num_rows) 
         ]
     
-    def getNumRows(self) -> int:
-        return self.numRows
+    def get_num_rows(self) -> int:
+        return self.num_rows
 
-    def getNumCols(self) -> int:
-        return self.numCols
+    def get_num_cols(self) -> int:
+        return self.num_cols
     
-    def getCell(self, row: int, col: int) -> Optional[DiskColor]:
-        if not self._inBounds(row, col):
+    def get_cell(self, row: int, col: int) -> Optional[DiskColor]:
+        if not self._in_bounds(row, col):
             return None
 
         return self.grid[row][col]
 
-    def canPlace(self, col: int) -> bool:
-        if col < 0 or col >= self.numCols:
+    def can_place(self, col: int) -> bool:
+        if col < 0 or col >= self.num_cols:
             return False
 
         return self.grid[0][col]is None
 
-    def placeDisk(self, col: int, color: DiskColor) -> int:
-        if not self.canPlace(col):
+    def place_disk(self, col: int, color: DiskColor) -> int:
+        if not self.can_place(col):
             return -1
 
-        for row in range(self.numRows - 1, -1, -1):
+        for row in range(self.num_rows - 1, -1, -1):
             if self.grid[row][col] is None:
                 self.grid[row][col] = color
                 return row
             
         return -1
 
-    def isFull(self) -> bool:
-        for col in range(self.numCols):
-            if self.canPlace(col):
+    def is_full(self) -> bool:
+        for col in range(self.num_cols):
+            if self.can_place(col):
                 return False
         
         return True
 
-    def checkWin(self, row: int, col: int) -> bool:
+    def check_win(self, row: int, col: int) -> bool:
         directions = [[0, 1], [1, 0], [1, 1], [1, -1]] # → ↑ ↗ ↘
 
         for dr, dc in directions:
@@ -57,7 +57,7 @@ class Board:
             r, c = row + dr, col + dc
 
             # scan in direction
-            while self._inBounds(r, c) and self.grid[r][c] and self.grid[r][c] == self.grid[row][col]:
+            while self._in_bounds(r, c) and self.grid[r][c] and self.grid[r][c] == self.grid[row][col]:
                 r += dr
                 c += dc
                 count += 1
@@ -65,7 +65,7 @@ class Board:
             r, c = row - dr, col - dc
 
             # scan in opposite direction
-            while self._inBounds(r, c) and self.grid[r][c] and self.grid[r][c] == self.grid[row][col]:
+            while self._in_bounds(r, c) and self.grid[r][c] and self.grid[r][c] == self.grid[row][col]:
                 r -= dr
                 c -= dc
                 count += 1
@@ -75,18 +75,18 @@ class Board:
         
         return False
 
-    def _inBounds(self, row: int, col: int) -> bool:
-        if row < 0 or row >= self.numRows:
+    def _in_bounds(self, row: int, col: int) -> bool:
+        if row < 0 or row >= self.num_rows:
             return False
 
-        if col < 0 or col >= self.numCols:
+        if col < 0 or col >= self.num_cols:
             return False
 
         return True
 
     # Used only for testing purposes.
-    def _setState(self, cells: list[list[int | DiskColor]]) -> None:
-        grid = [[None for _ in range(self.numCols)] for _ in range(self.numRows)]
+    def _set_state(self, cells: list[list[int | DiskColor]]) -> None:
+        grid = [[None for _ in range(self.num_cols)] for _ in range(self.num_rows)]
 
         for cell in cells:
             if len(cell) != 3:
@@ -97,7 +97,7 @@ class Board:
             if type(row) is not int or type(col) is not int:
                 raise ValueError("Row and column must be integers")
 
-            if not self._inBounds(row, col):
+            if not self._in_bounds(row, col):
                 raise ValueError("Cell coordinates are out of bounds")
 
             if not isinstance(color, DiskColor):

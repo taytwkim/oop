@@ -2,8 +2,8 @@
 #include "game.hpp"
 
 int main() {
-    Player player1("alice", RED);
-    Player player2("bob", YELLOW);
+    Player player1("alice", DiskColor::RED);
+    Player player2("bob", DiskColor::YELLOW);
     Game game(&player1, &player2);
 
     game.makeMove(&player1, 0);
@@ -20,7 +20,7 @@ int main() {
 
     std::cout << "Move after game over accepted: " << std::boolalpha << accepted << '\n';
 
-    std::cout << game.getGameState() << std::endl;
+    std::cout << static_cast<int>(game.getGameState()) << std::endl;
     
     if (const Player* winner = game.getWinner()) {
         std::cout << winner->getName() << '\n';

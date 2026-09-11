@@ -6,7 +6,7 @@ Game::Game(const Player* player1, const Player* player2)
       player1(player1),
       player2(player2),
       currPlayer(player1),
-      state(IN_PROGRESS),
+      state(GameState::IN_PROGRESS),
       winner(nullptr)
 {
     if (player1 == nullptr || player2 == nullptr || player1 == player2) {
@@ -15,7 +15,7 @@ Game::Game(const Player* player1, const Player* player2)
 }
 
 bool Game::makeMove(const Player* player, int col) {
-    if (state != IN_PROGRESS) {
+    if (state != GameState::IN_PROGRESS) {
         return false;
     }
 
@@ -30,12 +30,12 @@ bool Game::makeMove(const Player* player, int col) {
     }
 
     if (board.checkWin(row, col)) {
-        state = WON;
+        state = GameState::WON;
         winner = currPlayer;
     }
 
     else if (board.isFull()) {
-        state = DRAW;
+        state = GameState::DRAW;
     }
     
     else {
@@ -50,15 +50,15 @@ bool Game::makeMove(const Player* player, int col) {
     return true;
 }
 
-const Player* Game::getCurrentPlayer() {
+const Player* Game::getCurrentPlayer() const {
     return currPlayer;
 }
 
-GameState Game::getGameState() {
+GameState Game::getGameState() const {
     return state;
 }
 
-const Player* Game::getWinner() {
+const Player* Game::getWinner() const {
     return winner;
 }
 

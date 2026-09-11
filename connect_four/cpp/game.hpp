@@ -3,7 +3,7 @@
 #include "board.hpp"
 #include "player.hpp"
 
-enum GameState {
+enum class GameState {
     IN_PROGRESS,
     WON,
     DRAW
@@ -21,8 +21,8 @@ private:
 public:
     Game(const Player* player1, const Player* player2);
     bool makeMove(const Player* player, int col);
-    const Player* getCurrentPlayer();
-    GameState getGameState();
-    const Player* getWinner();
+    const Player* getCurrentPlayer() const;
+    GameState getGameState() const;
+    const Player* getWinner() const;
     Board& getBoard();
 };

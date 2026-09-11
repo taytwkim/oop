@@ -7,7 +7,7 @@ Board::Board(int numRows, int numCols)
       numCols(numCols),
       grid(numRows, std::vector<std::optional<DiskColor>>(numCols)) {}
 
-bool Board::inBounds(int row, int col) {
+bool Board::inBounds(int row, int col) const {
     if (row < 0 || row >= numRows) {
         return false;
     }
@@ -19,15 +19,15 @@ bool Board::inBounds(int row, int col) {
     return true;
 }
 
-int Board::getNumRows() {
+int Board::getNumRows() const {
     return numRows;
 }
 
-int Board::getNumCols() {
+int Board::getNumCols() const {
     return numCols;
 }
 
-std::optional<DiskColor> Board::getCell(int row, int col) {
+std::optional<DiskColor> Board::getCell(int row, int col) const {
     if (!inBounds(row, col)) {
         return std::nullopt;
     }
@@ -35,7 +35,7 @@ std::optional<DiskColor> Board::getCell(int row, int col) {
     return grid[row][col];
 }
 
-bool Board::canPlace(int col) {
+bool Board::canPlace(int col) const {
     if (col < 0 || col >= numCols) {
         return false;
     }
@@ -58,7 +58,7 @@ int Board::placeDisk(int col, DiskColor color) {
     return -1;
 }
 
-bool Board::isFull() {
+bool Board::isFull() const {
     for (int col = 0; col < numCols; ++col) {
         if (canPlace(col)) {
             return false;
@@ -68,7 +68,7 @@ bool Board::isFull() {
     return true;
 }
 
-bool Board::checkWin(int row, int col) {
+bool Board::checkWin(int row, int col) const {
     if (!inBounds(row, col) || !grid[row][col].has_value()) {
         return false;
     }
@@ -114,7 +114,7 @@ void Board::setState(const std::vector<std::tuple<int, int, DiskColor>>& cells) 
             throw std::invalid_argument("Cell coordinates are out of bounds");
         }
 
-        if (color != RED && color != YELLOW) {
+        if (color != DiskColor::RED && color != DiskColor::YELLOW) {
             throw std::invalid_argument("Color must be RED or YELLOW");
         }
         

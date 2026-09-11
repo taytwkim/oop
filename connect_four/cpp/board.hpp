@@ -4,7 +4,7 @@
 #include <tuple>
 #include <vector>
 
-enum DiskColor {
+enum class DiskColor {
     RED,
     YELLOW
 };
@@ -14,16 +14,16 @@ private:
     int numRows;
     int numCols;
     std::vector<std::vector<std::optional<DiskColor>>> grid;
-    bool inBounds(int row, int col);    // helper function
+    bool inBounds(int row, int col) const;    // helper function
 
 public:
     Board(int numRows, int numCols);
-    int getNumRows();
-    int getNumCols();
-    std::optional<DiskColor> getCell(int row, int col);
-    bool canPlace(int col);
+    int getNumRows() const;
+    int getNumCols() const;
+    std::optional<DiskColor> getCell(int row, int col) const;
+    bool canPlace(int col) const;
     int placeDisk(int col, DiskColor color);
-    bool isFull();
-    bool checkWin(int row, int col);
+    bool isFull() const;
+    bool checkWin(int row, int col) const;
     void setState(const std::vector<std::tuple<int, int, DiskColor>>& cells);   // for testing
 };
