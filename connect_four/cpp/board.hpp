@@ -14,7 +14,7 @@ private:
     int numRows;
     int numCols;
     std::vector<std::vector<std::optional<DiskColor>>> grid;
-    bool inBounds(int row, int col);
+    bool inBounds(int row, int col);    // helper function
 
 public:
     Board(int numRows, int numCols);

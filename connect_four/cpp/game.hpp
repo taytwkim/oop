@@ -12,7 +12,6 @@ enum GameState {
 class Game {
 private:
     Board board;
-    // Non-owning pointers: players must outlive the game.
     const Player* player1;
     const Player* player2;
     const Player* currPlayer;

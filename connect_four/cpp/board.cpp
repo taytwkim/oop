@@ -113,9 +113,11 @@ void Board::setState(const std::vector<std::tuple<int, int, DiskColor>>& cells) 
         if (!inBounds(row, col)) {
             throw std::invalid_argument("Cell coordinates are out of bounds");
         }
+
         if (color != RED && color != YELLOW) {
             throw std::invalid_argument("Color must be RED or YELLOW");
         }
+        
         newGrid[row][col] = color;
     }
 
