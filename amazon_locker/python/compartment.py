@@ -18,4 +18,4 @@ class Compartment:
         self.occupied = False
 
     def open(self) -> None:
-        self.occupied = not self.occupied
+        pass
