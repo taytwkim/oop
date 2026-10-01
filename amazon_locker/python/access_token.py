@@ -8,7 +8,7 @@ class AccessToken():
         self.compartment: Compartment = compartment
 
     def is_expired(self) -> bool:
-        raise NotImplementedError
+        return self.expiration <= datetime.now()
 
     def get_compartment(self) -> Compartment:
         return self.compartment;

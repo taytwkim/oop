@@ -1,4 +1,4 @@
-from locker import Size
+from size import Size
 
 class Compartment:
     def __init__(self, size: Size):
