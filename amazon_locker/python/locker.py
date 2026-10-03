@@ -3,7 +3,6 @@ from access_token import AccessToken
 from size import Size
 from datetime import datetime, timedelta
 
-
 class Locker:
     def __init__(self):
         self.compartments: list[Compartment] = []
