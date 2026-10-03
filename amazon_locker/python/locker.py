@@ -42,9 +42,11 @@ class Locker:
 
     
     def open_expired_compartments(self) -> None:
-        for token in self.access_tokens.values():
+        for code, token in list(self.access_tokens.items()):
             if token.is_expired():
+                token.get_compartment().mark_free()
                 token.get_compartment().open()
+                del self.access_tokens[code]
     
 
     def _get_available_compartment(self, size: Size) -> Compartment | None:
