@@ -34,18 +34,18 @@ public:
     }
 
     /*
-    * virtual means when this method is called through a
-    * parent pointer/reference, C++ should use the child class version
-    * if the actual object is a child object.
-    *
-    * For example:
-    *      Employee* e = new FullTimeEmployee("E1", "Alice", 5000);
-    *
-    * Here, the pointer type is Employee*,
-    * but the actual object is FullTimeEmployee.
-    *
-    * virtual ensures that overridden child methods are called.
-    */
+     * virtual means when this method is called through a
+     * parent pointer/reference, C++ should use the child class version
+     * if the actual object is a child object.
+     *
+     * For example:
+     *      Employee* e = new FullTimeEmployee("E1", "Alice", 5000);
+     *
+     * Here, the pointer type is Employee*,
+     * but the actual object is FullTimeEmployee.
+     *
+     * virtual ensures that overridden child methods are called.
+     */
     virtual std::string get_role() const {
         return "Employee";
     }
