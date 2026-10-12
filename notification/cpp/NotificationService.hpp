@@ -1,13 +1,14 @@
 #pragma once
 
+#include "Notification.hpp"
 #include <memory>
 
 class NotificationService {
 public:
     NotificationService();
     ~NotificationService();
-    void register_notification();
-    void send();
+    void register_notification(std::unique_ptr<Notification>);
+    void send_all(std::string message);
     
 private:
     class Impl;
